@@ -38,9 +38,11 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   final cityNameController = TextEditingController();
 
+  WeatherBloc? _weatherBloc;
+
   @override
   Widget build(BuildContext context) {
-    final _weatherBloc = BlocProvider.of<WeatherBloc>(context);
+    this._weatherBloc = BlocProvider.of<WeatherBloc>(context);
 
     return BlocBuilder<WeatherBloc, WeatherState>(builder: (context, state) {
       if (state is WeatherIsNotSearched) {
@@ -66,7 +68,7 @@ class _MainPageState extends State<MainPage> {
                 icon: new Icon(Icons.refresh),
                 tooltip: 'Refresh',
                 onPressed: () {
-                  _weatherBloc.add(FetchWeather(cityNameController.text));
+                  _weatherBloc!.add(FetchWeather(cityNameController.text));
                   cityNameController.clear();
                 },
                 color: Colors.white,
@@ -107,7 +109,8 @@ class _MainPageState extends State<MainPage> {
                       icon: new Icon(Icons.refresh),
                       tooltip: 'Refresh',
                       onPressed: () {
-                        _weatherBloc.add(FetchWeather(cityNameController.text));
+                        _weatherBloc!
+                            .add(FetchWeather(cityNameController.text));
                         cityNameController.clear();
                       },
                       color: Colors.white,
@@ -164,7 +167,7 @@ class _MainPageState extends State<MainPage> {
                 icon: new Icon(Icons.refresh),
                 tooltip: 'Refresh',
                 onPressed: () {
-                  _weatherBloc.add(FetchWeather(cityNameController.text));
+                  _weatherBloc!.add(FetchWeather(cityNameController.text));
                   cityNameController.clear();
                 },
                 color: Colors.white,
@@ -181,5 +184,6 @@ class _MainPageState extends State<MainPage> {
     // TODO: implement dispose
     super.dispose();
     cityNameController.dispose();
+    _weatherBloc!.close();
   }
 }
